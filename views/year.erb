@@ -2,3 +2,8 @@
 
 <h3><a href = '/<%= @year_id %>/add_list'>Add Expense Category?</a></h3>
 
+<% unless @expense_lists.empty? %>
+	<% @expense_lists.each do |expense_list| %>
+		<ul><h5>expense_list</h5></h5>
+	<% end %>
+<% end %>

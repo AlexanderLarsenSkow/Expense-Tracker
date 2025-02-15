@@ -35,11 +35,21 @@ def set_up_year
   @years = session[:years]
   @year_id = params[:year_id].to_i
   @year = @years.find { |year| year[:id] == @year_id }
-
+  @expense_lists = @year[:expense_lists]
 end
 
 get '/:year_id' do
   set_up_year
 
   erb :year
+end
+
+get '/:year_id/add_list' do
+  set_up_year
+
+  erb :add_expense_list
+end
+
+post '/:year_id/' do
+  
 end
