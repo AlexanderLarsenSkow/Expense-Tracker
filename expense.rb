@@ -50,6 +50,9 @@ get '/:year_id/add_list' do
   erb :add_expense_list
 end
 
-post '/:year_id/' do
-  
+post '/:year_id' do
+  set_up_year
+
+  @year[:expense_lists] << { list_id: 1, name: params["expense_list",], expenses: [] }
+  redirect "/#{@year_id}"
 end
