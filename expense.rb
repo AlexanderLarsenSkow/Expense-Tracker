@@ -75,8 +75,32 @@ end
 get '/year/:year_id/list/:list_id' do
   set_up_year
   set_up_list
-  p @list.size == 0
 
   erb :list
- 
+end
+
+get "/year/:year_id/list/:list_id/add" do
+  set_up_year
+  set_up_list
+
+  erb :add_expense
+end
+
+def set_expense_id
+  return 1 if @list.size == 0
+  @list.find_max + 1
+end
+
+post '/year/:year_id/list/:list_id' do
+  set_up_year
+  set_up_list
+
+  name = params[:expense]
+  cost = params[:cost].to_i
+  id = set_expense_id
+
+  expense = Expense.new(name, cost, id)
+  @list << expense
+
+  redirect "/year/#{@year_id}/list/#{@list_id}"
 end
