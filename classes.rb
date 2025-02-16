@@ -16,13 +16,21 @@ class ExpenseList
     expenses.delete(expense)
   end
 
+  def include?(item)
+    expenses.include? item
+  end
+
+  def size
+    expenses.size
+  end
+
   def sum
     expenses.map { |expense| expense.cost }.sum
   end
 
   def each
     expenses.each { |expense| yield(expense) }
-    expenses
+    self
   end
 
   private
