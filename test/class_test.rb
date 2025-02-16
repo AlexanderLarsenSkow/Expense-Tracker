@@ -65,6 +65,13 @@ class ExpenseListTest < Minitest::Test
     assert_equal 21_500, @list.sum
   end
 
+  def test_find
+    @list << @expense_two
+    id = 2
+
+    assert_equal @list.find(id), @expense_two
+  end
+
   def test_find_max
     @list << @expense_one << @expense_two
     assert_equal 2, @list.find_max

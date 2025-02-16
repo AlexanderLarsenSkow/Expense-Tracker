@@ -28,6 +28,10 @@ class ExpenseList
     expenses.map { |expense| expense.cost }.sum
   end
 
+  def find(id)
+    expenses.find { |expense| expense.id == id }
+  end
+
   def find_max
     expenses.map(&:id).max 
   end
