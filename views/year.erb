@@ -5,7 +5,7 @@
 <% unless @expense_lists.empty? %>
 	<li>
 	<% @expense_lists.each do |expense_list| %>
-		<ul><h5><%= expense_list[:name] %></h5></h5>
+		<ul><h4><%= expense_list.name %></h4></ul>
 	<% end %>
 	</li>
 <% end %>
