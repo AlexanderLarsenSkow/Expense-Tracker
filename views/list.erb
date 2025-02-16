@@ -1,0 +1,11 @@
+<h2><%= @name %></h2>
+
+<% unless @list.size == 0 %>
+	<li>
+	<% @list.each do |expense| %>
+		<ul><%= expense.name %></ul>
+	<% end %>
+	</li>
+<% end %>
+
+<a href = "/year/<%= @year_id %>/list/<%= @list_id %>/add"><h3>Add Expense?</a></h3>

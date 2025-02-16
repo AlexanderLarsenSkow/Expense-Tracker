@@ -33,7 +33,7 @@ class ExpenseList
   end
 
   def find_max
-    expenses.map(&:id).max 
+    expenses.map(&:id).max
   end
 
   def each

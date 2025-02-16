@@ -60,12 +60,23 @@ end
 post '/year/:year_id' do
   set_up_year
   list_id = set_expense_list_id
-  p list_id
 
   @year[:expense_lists] << ExpenseList.new(params[:expense_list], list_id)
   redirect "/year/#{@year_id}"
 end
 
+def set_up_list
+  @list_id = params[:list_id].to_i
+  @list = @expense_lists.find { |list| list.id == @list_id }
+  @name = @list.name
+  @total_costs = @list.sum
+end
+
 get '/year/:year_id/list/:list_id' do
-  
+  set_up_year
+  set_up_list
+  p @list.size == 0
+
+  erb :list
+ 
 end
