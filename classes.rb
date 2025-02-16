@@ -28,6 +28,10 @@ class ExpenseList
     expenses.map { |expense| expense.cost }.sum
   end
 
+  def find_max
+    expenses.map(&:id).max 
+  end
+
   def each
     expenses.each { |expense| yield(expense) }
     self

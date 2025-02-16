@@ -65,6 +65,20 @@ class ExpenseListTest < Minitest::Test
     assert_equal 21_500, @list.sum
   end
 
+  def test_find_max
+    @list << @expense_one << @expense_two
+    assert_equal 2, @list.find_max
+
+    @list << @expense_three
+    assert_equal 3, @list.find_max
+
+    @list.delete(3)
+    assert_equal 2, @list.find_max
+
+    @list.delete(2); @list.delete(1)
+    assert_nil @list.find_max
+  end
+
   def test_each
     @list << @expense_one << @expense_two
 
