@@ -21,6 +21,7 @@ get '/add' do
   @path = 'add/year'
   @input_name = 'year'
   @input_value = params[:year]
+  @label = 'Year:'
 
   erb :add
 end
@@ -62,6 +63,7 @@ get '/year/:year_id/add_list' do
   @path = "/year/#{@year_id}"
   @input_name = 'expense_list'
   @input_value = params[:expense_list]
+  @label = 'List Name:'
 
   erb :add
 end
@@ -92,7 +94,13 @@ get "/year/:year_id/list/:list_id/add" do
   set_up_year
   set_up_list
 
-  erb :add_expense
+  @title = 'Add Expense'
+  @path = "/year/#{@year_id}/list/#{@list_id}"
+  @input_name = 'expense'
+  @input_value = params[:expense]
+  @label = 'Name:'
+
+  erb :add
 end
 
 def set_expense_id
