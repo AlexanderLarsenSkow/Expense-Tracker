@@ -108,12 +108,16 @@ def set_expense_id
   @list.find_max + 1
 end
 
+def select_numbers(input)
+  input.gsub(/\D/, '')
+end
+
 post '/year/:year_id/list/:list_id' do
   set_up_year
   set_up_list
-
+  
   name = params[:expense]
-  cost = params[:cost].to_i
+  cost = select_numbers(params[:cost]).to_i
   id = set_expense_id
 
   expense = Expense.new(name, cost, id)
