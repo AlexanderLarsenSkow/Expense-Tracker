@@ -3,6 +3,8 @@ require 'sinatra/reloader'
 require 'tilt/erubi'
 require 'bcrypt'
 
+require_relative 'classes'
+
 configure do
   enable :sessions
   set :session_secret, SecureRandom.hex(32)
