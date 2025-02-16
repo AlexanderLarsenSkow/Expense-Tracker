@@ -1,5 +1,5 @@
 <h3>Add Expense List</h3>
-<form method = 'post' action = "/<%= @year_id %>">
+<form method = 'post' action = "/year/<%= @year_id %>">
 	<input name = 'expense_list' value = <%= params['expense_list']%>>
 	<button type = 'submit'>Submit</button>
 </form>

@@ -45,22 +45,27 @@ def set_up_year
   @expense_lists = @year[:expense_lists]
 end
 
-get '/:year_id' do
+get '/year/:year_id' do
   set_up_year
 
   erb :year
 end
 
-get '/:year_id/add_list' do
+get '/year/:year_id/add_list' do
   set_up_year
 
   erb :add_expense_list
 end
 
-post '/:year_id' do
+post '/year/:year_id' do
   set_up_year
   list_id = set_expense_list_id
+  p list_id
 
   @year[:expense_lists] << ExpenseList.new(params[:expense_list], list_id)
-  redirect "/#{@year_id}"
+  redirect "/year/#{@year_id}"
+end
+
+get '/year/:year_id/list/:list_id' do
+  
 end

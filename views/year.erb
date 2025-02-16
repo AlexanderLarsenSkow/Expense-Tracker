@@ -1,11 +1,12 @@
 <h2><%= @year[:year] %></h2>
 
-<h3><a href = '/<%= @year_id %>/add_list'>Add Expense Category?</a></h3>
+<h3><a href = '/year/<%= @year_id %>/add_list'>Add Expense Category?</a></h3>
 
 <% unless @expense_lists.empty? %>
 	<li>
 	<% @expense_lists.each do |expense_list| %>
-		<ul><h4><%= expense_list.name %></h4></ul>
+		<ul><a href = "/year/<%= @year_id %>/list/<%= expense_list.id %>">
+			<h4><%= expense_list.name %></h4></a></ul>
 	<% end %>
 	</li>
 <% end %>
