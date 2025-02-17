@@ -1,5 +1,8 @@
 <h2><%= @name %></h2>
 
+<a href = "/year/<%= @year_id %>/list/<%= @list_id %>/edit">
+	<h4>Edit</h4></a>
+
 <% unless @list.size == 0 %>
 	<h3><li>Expenses:</h3>
 	<% @list.each do |expense| %>

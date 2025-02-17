@@ -150,6 +150,7 @@ get '/year/:year_id/add_list' do
 end
 
 def existing_list?(list_name)
+  return if !@expense_lists || list_name == @name
   @expense_lists.any? { |list| list.name == list_name }
 end
 
@@ -196,6 +197,32 @@ get '/year/:year_id/list/:list_id' do
   set_up_list
 
   erb :list
+end
+
+get '/year/:year_id/list/:list_id/edit' do
+  set_up_year
+  set_up_list
+
+  erb :edit_list
+end
+
+post '/year/:year_id/list/:list_id/edit' do
+  set_up_year
+  set_up_list
+  
+  new_name = params[:edit].strip
+
+  if invalid_list?(new_name)
+    determine_list_error(new_name)
+
+    erb :edit_list
+  
+  else
+    session[:success] = 'You have successfully changed the list name!'
+    @list.change_name(new_name)
+
+    redirect "/year/#{@year_id}/list/#{@list_id}"
+  end
 end
 
 def set_up_add_expense

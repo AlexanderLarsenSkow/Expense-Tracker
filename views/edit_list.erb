@@ -1,0 +1,8 @@
+<h3>Edit <%= @name %></h3>
+<form method = 'post' action = "/year/<%= @year_id %>/list/<%= @list_id %>/edit">
+	<label>Name:</label>
+	<input name = "edit" value = "<%= params[:edit] || @name %>">
+
+	<br><br>
+	<button type = 'submit'>Submit</button>
+</form>
