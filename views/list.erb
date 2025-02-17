@@ -3,10 +3,10 @@
 <% unless @list.size == 0 %>
 	<li>Expenses:
 	<% @list.each do |expense| %>
-		<ul><%= expense.name %>: <strong><%= display_dollar_commas(expense.cost) %>
+		<ul><%= expense.name %>: <strong><%= display_cost(expense.cost) %>
 			</strong></ul>
 	<% end %>
-	<h3>Total: <%= display_dollar_commas(@list.sum) %></h3>
+	<h3>Total: <%= display_cost(@list.sum) %></h3>
 	</li>
 <% end %>
 

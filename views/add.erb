@@ -6,7 +6,7 @@
 	<% if @title == "Add Expense" %>
 		<br><br>
 		<label>Cost:</label>
-		<input name = 'cost' value = "$<%= params['cost'] %>">
+		<input name = 'cost' value = "<%= add_dollar_sign(params['cost']) %>">
 	<% end %>
 	
 	<br><br>

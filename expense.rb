@@ -16,8 +16,8 @@ helpers do
     "<p class = 'flash'>#{session.delete(name)}</p>"
   end
 
-  def display_dollar_commas(cost)
-    digits = cost.digits
+  def dollar_commas(cost)
+    digits = cost.to_i.digits
     index = 0
   
     commas = digits.map do |digit|
@@ -29,8 +29,28 @@ helpers do
         digit.to_s
       end
     end
-    
     commas.join.reverse.prepend('$')
+  end
+
+  def handle_decimals(cost)
+    cost = cost.to_s
+    cost << '0' if cost[-3] != '.'
+
+    cost[-3..-1]
+  end
+
+  def display_cost(cost)
+    dollar_commas(cost) << handle_decimals(cost)
+  end
+
+  def add_dollar_sign(input)
+    if input
+      input.prepend('$') unless input.include?('$')
+      input
+    
+    else
+      input.to_s + '$'
+    end
   end
 end
 
@@ -87,7 +107,6 @@ end
 
 post '/add/year' do
   set_up_add_year
-  p @path
   @year = params[:year].strip
   session[:years] = [] unless session[:years]
 
@@ -179,15 +198,18 @@ get '/year/:year_id/list/:list_id' do
   erb :list
 end
 
-get "/year/:year_id/list/:list_id/add" do
-  set_up_year
-  set_up_list
-
+def set_up_add_expense
   @title = 'Add Expense'
   @path = "/year/#{@year_id}/list/#{@list_id}"
   @input_name = 'expense'
   @input_value = params[:expense]
   @label = 'Name:'
+end
+
+get "/year/:year_id/list/:list_id/add" do
+  set_up_year
+  set_up_list
+  set_up_add_expense
 
   erb :add
 end
@@ -198,19 +220,36 @@ def set_expense_id
 end
 
 def select_numbers(input)
-  input.gsub(/\D/, '')
+  input.gsub(/[,$]/, '')
+end
+
+def invalid_cost?(input)
+  !input.chars.all? { |char| char.match?(/[\d$,.]/) }
+end
+
+def wrong_period?(input)
+  input.count('.') > 1 || input.include?('.') && input[-3] != '.'
 end
 
 post '/year/:year_id/list/:list_id' do
   set_up_year
   set_up_list
-  
+  set_up_add_expense
+
   name = params[:expense]
-  cost = select_numbers(params[:cost]).to_i
+  cost = params[:cost]
   id = set_expense_id
 
-  expense = Expense.new(name, cost, id)
-  @list << expense
+  if invalid_cost?(cost) || wrong_period?(cost) 
+    session[:error] = 'Big Problem!'
+    erb :add
 
-  redirect "/year/#{@year_id}/list/#{@list_id}"
+  else
+    session[:success] = "Success!"
+    sanitized_cost = select_numbers(cost).to_f
+    expense = Expense.new(name, sanitized_cost, id)
+    @list << expense
+  
+    redirect "/year/#{@year_id}/list/#{@list_id}"
+  end
 end
