@@ -15,6 +15,23 @@ helpers do
     return unless session[name]
     "<p class = 'flash'>#{session.delete(name)}</p>"
   end
+
+  def display_dollar_commas(cost)
+    digits = cost.digits
+    index = 0
+  
+    commas = digits.map do |digit|
+      index += 1
+      if index % 3 == 0 && digits[index]
+        "#{digit},"
+      
+      else
+        digit.to_s
+      end
+    end
+    
+    commas.join.reverse.prepend('$')
+  end
 end
 
 get '/' do
