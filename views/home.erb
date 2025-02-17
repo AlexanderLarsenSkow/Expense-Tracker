@@ -1,10 +1,9 @@
 <% if session[:years] %>
-	<h2>Years:</h2>
-	<li>
+	<h2><li>Years:</h2>
 		<% @years.each do |year| %>
 			<ul><a href = '/year/<%= year[:id] %>'><p><%= year[:year] %><p></ul>
 		<% end %>
 	</li>
 <% end %>
 
-<h4><a href = '/add'>Add Year?</a></h4>
+<h4><a href = '/add'>Add Year</a></h4>

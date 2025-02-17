@@ -1,7 +1,7 @@
 <h2><%= @name %></h2>
 
 <% unless @list.size == 0 %>
-	<li>Expenses:
+	<h3><li>Expenses:</h3>
 	<% @list.each do |expense| %>
 		<ul><%= expense.name %>: <strong><%= display_cost(expense.cost) %>
 			</strong></ul>
@@ -10,4 +10,8 @@
 	</li>
 <% end %>
 
-<a href = "/year/<%= @year_id %>/list/<%= @list_id %>/add"><h3>Add Expense?</a></h3>
+<a href = "/year/<%= @year_id %>/list/<%= @list_id %>/add"><h3>Add Expense</a></h3>
+
+<br>
+
+<a href = '/year/<%= @year_id %>'>Expense Categories</a>
