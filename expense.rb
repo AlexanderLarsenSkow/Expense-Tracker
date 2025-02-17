@@ -315,3 +315,15 @@ post '/year/:year_id/list/:list_id' do
     redirect "/year/#{@year_id}/list/#{@list_id}"
   end
 end
+
+post '/year/:year_id/list/:list_id/:exp_id/delete' do
+  set_up_year
+  set_up_list
+  exp_id = params[:exp_id].to_i
+  name = @list.find(exp_id).name
+
+  @list.delete(exp_id)
+  session[:success] = "You have successfully deleted the #{name} Expense."
+
+  redirect "/year/#{@year_id}/list/#{@list_id}"
+end

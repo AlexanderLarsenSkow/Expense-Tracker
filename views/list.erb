@@ -3,17 +3,29 @@
 <a href = "/year/<%= @year_id %>/list/<%= @list_id %>/edit">
 	<h4>Edit</h4></a>
 
+<a href = "/year/<%= @year_id %>/list/<%= @list_id %>/add"><h3>Add Expense</a></h3>
+
 <% unless @list.size == 0 %>
 	<h3><li>Expenses:</h3>
 	<% @list.each do |expense| %>
-		<ul><%= expense.name %>: <strong><%= display_cost(expense.cost) %>
-			</strong></ul>
+		<ul>
+			<%= expense.name %>: <strong><%= display_cost(expense.cost) %>
+			</strong>
+			<br><br>
+
+			<form method = 'post' action = "/year/<%= @year_id %>/list/<%= @list_id %>/<%= expense.id %>/delete">
+				<button type = 'submit'>Delete Expense</button>
+			</form>
+
+			</ul>	
 	<% end %>
 	<h3>Total: <%= display_cost(@list.sum) %></h3>
 	</li>
-<% end %>
 
-<a href = "/year/<%= @year_id %>/list/<%= @list_id %>/add"><h3>Add Expense</a></h3>
+	<% else %>
+		<h3>Total: $0.00</h3>
+
+<% end %>
 
 <br>
 
