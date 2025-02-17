@@ -219,16 +219,41 @@ def set_expense_id
   @list.find_max + 1
 end
 
-def select_numbers(input)
-  input.gsub(/[,$]/, '')
+def select_numbers(cost)
+  cost.gsub(/[,$]/, '')
 end
 
-def invalid_cost?(input)
-  !input.chars.all? { |char| char.match?(/[\d$,.]/) }
+def invalid_cost?(cost)
+  !cost.chars.all? { |char| char.match?(/[\d$,.]/) }
 end
 
-def wrong_period?(input)
-  input.count('.') > 1 || input.include?('.') && input[-3] != '.'
+def too_many_periods?(cost)
+  cost.count('.') > 1
+end
+
+def too_many_decimals?(cost)
+  cost.include?('.') && cost[-3] != '.'
+end
+
+def invalid_period?(cost)
+  too_many_periods?(cost) || too_many_decimals?(cost)
+end
+
+def invalid_expense?(name, cost)
+  invalid_size?(name) || invalid_size?(cost) ||
+  invalid_cost?(cost) || invalid_period?(cost)
+end
+
+def determine_expense_error(name, cost)
+  if invalid_size?(name) || invalid_size?(cost)
+    session[:error] = 'Please enter values between 1 and 100 characters.'
+  
+  elsif invalid_cost?(cost)
+    session[:error] = 'Please enter a number that only includes a $, comma, or period.'
+  
+  elsif invalid_period?(cost)
+    session[:error] = 'Please only enter one period with two decimals.'
+  end
 end
 
 post '/year/:year_id/list/:list_id' do
@@ -236,18 +261,17 @@ post '/year/:year_id/list/:list_id' do
   set_up_list
   set_up_add_expense
 
-  name = params[:expense]
-  cost = params[:cost]
-  id = set_expense_id
+  name = params[:expense].strip
+  cost = select_numbers(params[:cost]).strip
 
-  if invalid_cost?(cost) || wrong_period?(cost) 
-    session[:error] = 'Big Problem!'
+  if invalid_expense?(name, cost)
+    determine_expense_error(name, cost)
     erb :add
 
   else
     session[:success] = "Success!"
-    sanitized_cost = select_numbers(cost).to_f
-    expense = Expense.new(name, sanitized_cost, id)
+    dollar_convert = cost.to_f
+    expense = Expense.new(name, dollar_convert, set_expense_id)
     @list << expense
   
     redirect "/year/#{@year_id}/list/#{@list_id}"
