@@ -225,7 +225,18 @@ post '/year/:year_id/list/:list_id/edit' do
   end
 end
 
-def set_up_add_expense
+post '/year/:year_id/list/:list_id/delete_list' do
+  set_up_year
+  @list = @expense_lists.find { |list| list.id == params[:list_id].to_i }
+  name = @list.name
+
+  @expense_lists.delete(@list)
+  session[:success] = "Success! You have deleted #{name}."
+
+  redirect "/year/#{@year_id}"
+end
+
+def set_up_add_expense  
   @title = 'Add Expense'
   @path = "/year/#{@year_id}/list/#{@list_id}"
   @input_name = 'expense'
