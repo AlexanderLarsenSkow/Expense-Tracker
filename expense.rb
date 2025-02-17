@@ -98,23 +98,54 @@ get '/year/:year_id' do
   erb :year
 end
 
-get '/year/:year_id/add_list' do
-  set_up_year
+def set_up_add_list
   @title = "Add Expense List"
   @path = "/year/#{@year_id}"
   @input_name = 'expense_list'
   @input_value = params[:expense_list]
   @label = 'List Name:'
+end
+
+get '/year/:year_id/add_list' do
+  set_up_year
+  set_up_add_list
 
   erb :add
 end
 
+def existing_list?(list_name)
+  @expense_lists.any? { |list| list.name == list_name }
+end
+
+def invalid_list?(list_name)
+  existing_list?(list_name) || invalid_size?(list_name)
+end
+
+def determine_list_error(list_name)
+  if existing_list?(list_name)
+    session[:error] = 'Please enter a new list.'
+  
+  else
+    session[:error] = 'List must be between 1 and 100 characters.'
+  end
+end
+
 post '/year/:year_id' do
   set_up_year
+  list_name = params[:expense_list].strip
   list_id = set_expense_list_id
 
-  @year[:expense_lists] << ExpenseList.new(params[:expense_list], list_id)
-  redirect "/year/#{@year_id}"
+  if invalid_list?(list_name)
+    set_up_add_list
+    determine_list_error(list_name)
+
+    erb :add
+  
+  else
+    session[:success] = 'Success! You have added a new list.'
+    @year[:expense_lists] << ExpenseList.new(params[:expense_list], list_id)
+    redirect "/year/#{@year_id}"
+  end
 end
 
 def set_up_list
