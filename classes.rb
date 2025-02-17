@@ -16,6 +16,10 @@ class ExpenseList
     expenses.delete(expense)
   end
 
+  def change_name(new_name)
+    self.name = new_name
+  end
+
   def include?(item)
     expenses.include? item
   end
@@ -44,6 +48,7 @@ class ExpenseList
   private
 
   attr_reader :expenses
+  attr_writer :name
 end
 
 class Expense
