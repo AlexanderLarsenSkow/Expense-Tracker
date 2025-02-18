@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'bundler/setup'
-require_relative '../classes'
+
+require_relative '../lib/classes'
 
 class ExpenseListTest < Minitest::Test
   def setup
