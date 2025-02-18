@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'tilt/erubi'
-require 'bcrypt'
+# require 'bcrypt'
 
 root = File.expand_path('..', __FILE__)
 path = Dir.glob(root + '/lib/*')
@@ -20,7 +20,7 @@ helpers do
   end
 
   def dollar_commas(cost)
-    digits = cost.to_i.digits
+      digits = cost.to_i.digits
     index = 0
   
     commas = digits.map do |digit|
