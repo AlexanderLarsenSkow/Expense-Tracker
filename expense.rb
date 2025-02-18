@@ -20,7 +20,7 @@ helpers do
   end
 
   def dollar_commas(cost)
-      digits = cost.to_i.digits
+    digits = cost.to_i.digits
     index = 0
   
     commas = digits.map do |digit|
@@ -54,6 +54,10 @@ helpers do
     else
       input.to_s + '$'
     end
+  end
+
+  def home_year_costs(year)
+    year[:expense_lists].map { |list| list.sum }.sum
   end
 end
 
@@ -124,11 +128,16 @@ post '/add/year' do
   end
 end
 
+def all_costs
+  @expense_lists.map { |list| list.sum }.sum
+end
+
 def set_up_year
   @years = session[:years]
   @year_id = params[:year_id].to_i
   @year = @years.find { |year| year[:id] == @year_id }
   @expense_lists = @year[:expense_lists]
+  @yearly_costs = all_costs
 end
 
 get '/year/:year_id' do

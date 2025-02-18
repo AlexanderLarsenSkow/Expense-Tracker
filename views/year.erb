@@ -1,11 +1,18 @@
 <h2><%= @year[:year] %></h2>
 
+<h3>Yearly Cost: <%= display_cost(@yearly_costs.to_f) %></h3>
+
+
 <% unless @expense_lists.empty? %>
 	<h3><li>Categories:</h3>
 	<% @expense_lists.each do |expense_list| %>
 		<ul>
 			<a href = "/year/<%= @year_id %>/list/<%= expense_list.id %>">
 			<h4><%= expense_list.name %></h4></a>
+			<h4>Total Costs: <%= display_cost(expense_list.sum.to_f) %></h4>
+
+			<br>
+
 		</ul>
 
 	<% end %>

@@ -1,9 +1,15 @@
 <% if session[:years] %>
 	<h2><li>Years:</h2>
 		<% @years.each do |year| %>
-			<ul><a href = '/year/<%= year[:id] %>'><p><%= year[:year] %><p></ul>
+			<ul>
+				<a href = '/year/<%= year[:id] %>'><h3><%= year[:year] %></h3></a>
+					<h3>Yearly Cost: <%= display_cost(home_year_costs(year).to_f) %></h3>
+			</ul>
+
+			<br>
+
 		<% end %>
 	</li>
 <% end %>
 
-<h4><a href = '/add'>Add Year</a></h4>
+<h3><a href = '/add'>Add Year</a></h3>
