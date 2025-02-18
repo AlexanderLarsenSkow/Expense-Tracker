@@ -3,7 +3,10 @@ require 'sinatra/reloader'
 require 'tilt/erubi'
 require 'bcrypt'
 
-require_relative 'classes'
+root = File.expand_path('..', __FILE__)
+path = Dir.glob(root + '/lib/*')
+
+require path.join
 
 configure do
   enable :sessions
