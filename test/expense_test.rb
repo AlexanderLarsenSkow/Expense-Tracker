@@ -30,6 +30,7 @@ class ExpenseTest < Minitest::Test
     assert_equal 200, last_response.status
     assert_includes last_response.body, "<form method = 'post'"
     assert_includes last_response.body, %q(<button type = 'submit')
+    assert_includes last_response.body, 'Cancel'
   end
 
   def test_add_year
@@ -127,6 +128,7 @@ class ExpenseTest < Minitest::Test
     assert_includes last_response.body, %q(value = "Shopping")
     assert_includes last_response.body, %q(<button type = 'submit')
     assert_includes last_response.body, 'Delete List'
+    assert_includes last_response.body, 'Cancel'
   end
 
   def test_edit_list

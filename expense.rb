@@ -59,6 +59,14 @@ helpers do
   def home_year_costs(year)
     year[:expense_lists].map { |list| list.sum }.sum
   end
+
+	def cancel_link
+		case @title
+		when 'Add Year' then '/'
+		when 'Add Expense List' then "/year/#{@year_id}"
+		when 'Add Expense' then "/year/#{@year_id}/list/#{@list_id}"	
+		end
+	end
 end
 
 get '/' do
