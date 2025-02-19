@@ -91,6 +91,23 @@ def set_expense_list_id
   @expense_lists.map { |list| list.id }.max + 1 
 end
 
+def valid_years
+  year = 2000
+  years = []
+
+  while year < 2026
+    years << year
+    year += 1
+  end
+  years.map(&:to_s)
+end
+
+VALID_YEARS = valid_years
+
+def uncovered_year?(input)
+	!VALID_YEARS.include?(input)
+end
+
 def existing_year?(input_year)
   session[:years].any? { |hash| hash[:year] == input_year }
 end
@@ -99,17 +116,21 @@ def invalid_size?(input)
   !(1..100).cover? input.size
 end
 
-def invalid?(input)
-  existing_year?(input) || invalid_size?(input)
+def invalid_year?(input)
+  existing_year?(input) || invalid_size?(input) ||
+		uncovered_year?(input)
 end
 
 def determine_year_error(input)
-  if existing_year?(input)
+	if existing_year?(input)
     session[:error] = 'Please enter a new year.'
 
-  else
+	elsif invalid_size?(input)
     session[:error] = 'Please enter a value between 1 and 100 characters.'
-  end
+	
+	else
+		session[:error] = 'Please enter a year between 2000 and 2025.'
+	end
 end
 
 post '/add/year' do
@@ -117,7 +138,7 @@ post '/add/year' do
   @year = params[:year].strip
   session[:years] = [] unless session[:years]
 
-  if invalid?(@year)
+  if invalid_year?(@year)
     determine_year_error(@year)
     erb :add
 

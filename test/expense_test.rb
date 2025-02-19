@@ -51,6 +51,14 @@ class ExpenseTest < Minitest::Test
     assert_equal 200, last_response.status
   end
 
+  def test_add_uncovered_year
+    post 'add/year', year: '1999'
+
+    error = 'Please enter a year between 2000 and 2025.'
+    assert_includes last_response.body, error
+    assert_equal 200, last_response.status
+  end
+
   def test_year_page
     post '/add/year', year: '2025'
     get '/year/1'
