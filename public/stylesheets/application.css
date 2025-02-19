@@ -1,0 +1,40 @@
+* {
+	background-color: rgb(14, 157, 245);
+	color: rgb(14, 16, 16);
+	text-align: center;
+}
+
+#site_title {
+	color: rgb(243, 239, 9);
+	font-size: 40px;
+	margin: 20px 20px;
+}
+
+#flash {
+	color: white;
+	padding: 10px;
+	margin: 10px 10px;
+	height: 17px;
+	width: 500px;
+	margin-left: 360px;
+	border-radius: 10px;
+	border: 2px black groove;
+
+}
+
+.success {
+	background-color: rgb(28, 196, 28)
+}
+
+.error {
+	background-color: red
+}
+
+button {
+	background-color: white;
+}
+
+input {
+	text-align: justify;
+	background-color: white
+}

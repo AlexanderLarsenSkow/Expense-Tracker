@@ -1,7 +1,8 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'tilt/erubi'
-# require 'bcrypt'
+require 'sinatra/content_for'
+require 'bcrypt'
 
 root = File.expand_path('..', __FILE__)
 path = Dir.glob(root + '/lib/*')
@@ -14,9 +15,19 @@ configure do
 end
 
 helpers do
+	
+	def determine_flash_class(name)
+		case name
+		when :success then "success"
+		when :error then "error"
+		end
+	end
+
   def flash_message(name)
-    return unless session[name]
-    "<p class = 'flash'>#{session.delete(name)}</p>"
+		return unless session[name]
+
+		@class = determine_flash_class(name)
+    "<p id = 'flash' class = '#{@class}'>#{session.delete(name)}</p>"
   end
 
   def dollar_commas(cost)

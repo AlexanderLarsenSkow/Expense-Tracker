@@ -1,14 +1,19 @@
 <!doctype html>
 <html>
-	<header>
-	<h1>Expense Tracker</h1>
+	<head>
+		<link rel = "stylesheet" href = "/stylesheets/application.css/?v=3">
+	</head>	
+
+	<header id = "banner">
+		<h1 id = "site_title">Expense Tracker</h1>
+		<%= yield_content :add_link %>
 	</header>
 
 	<%= flash_message(:success) %>
 	<%= flash_message(:error) %>
 
 	<body>
-	<%= yield %>
+		<%= yield %>
 	</body>
 
 </html>
